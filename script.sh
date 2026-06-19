@@ -8,7 +8,6 @@ RENKSIZ='\033[0m'
 ## Path yolları (hardcoded)
 logpath="/var/log/"
 
-
 echo -e "${SARI}APT paketleri güncelleniyor.. (şifre sorabilir, o yüzden lütfen şifrenizi girin)${RENKSIZ}"
 sudo apt-get update && sudo apt upgrade -y
 
@@ -20,3 +19,42 @@ else
     echo -e "${YESIL}[+] Günlük yolu oluşturuluyor..${RENKSIZ}"
     sudo mkdir -p "$logpath"
 fi
+
+echo -e "${SARI}[?] RAM kontrol ediliyor..${RENKSIZ}"
+BOS_RAM=$(free -m | awk 'NR==2{print $7}')
+echo -e "${YESIL}[+] RAM Durumu: ${BOS_RAM} MB${RENKSIZ}"
+
+if [ "$BOS_RAM" -lt 500 ]; then
+    echo -e "${KIRMIZI}[!!] Sistem belleği çok düşük, sunucuda aksaklıklar çıkabilir..${RENKSIZ}"
+else
+    echo -e "${YESIL}[+] Sistem belleği stabil, devam ediliyor..${RENKSIZ}"
+fi
+
+read -p "Log klasörü temizlensin mi? (E/H) >> " KULLANICI
+
+if [ "$KULLANICI" == "E" ] || [ "$KULLANICI" == "e" ]; then
+    echo -e "${SARI}[!] Güvenli log temizliği yapılıyor...${RENKSIZ}"
+    sudo find /var/log -type f -name "*.log" -exec truncate -s 0 {} \;
+    echo -e "${YESIL}[+] Log dosyaları başarıyla sıfırlandı.${RENKSIZ}"
+else
+    echo -e "${RENKSIZ}Temizlik işlemi iptal edildi.${RENKSIZ}"
+fi
+
+clear
+cat << 'EOF'
+⠀⠀⠀⢸⣦⡀⠀⠀⠀⠀⢀⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⢸⣏⠻⣶⣤⡶⢾⡿⠁⠀⢠⣄⡀⢀⣴⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⣀⣼⠷⠀⠀⠁⢀⣿⠃⠀⠀⢀⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠴⣾⣯⣅⣀⠀⠀⠀⠈⢻⣦⡀⠒⠻⠿⣿⡿⠿⠓⠂⠀⠀⢀⡇⠀⠀⠀⠀⠀⠀⠀Necmi Ustanın
+⠀⠀⠀⠉⢻⡇⣤⣾⣿⣷⣿⣿⣤⠀⠀⣿⠁⠀⠀⠀⢀⣴⣿⣿⠀⠀⠀⠀⠀⠀⠀  İsviçre Çakısı
+⠀⠀⠀⠀⠸⣿⡿⠏⠀⢀⠀⠀⠿⣶⣤⣤⣤⣄⣀⣴⣿⡿⢻⣿⡆⠀⠀⠀⠀⠀⠀          
+⠀⠀⠀⠀⠀⠟⠁⠀⢀⣼⠀⠀⠀⠹⣿⣟⠿⠿⠿⡿⠋⠀⠘⣿⣇⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⢳⣶⣶⣿⣿⣇⣀⠀⠀⠙⣿⣆⠀⠀⠀⠀⠀⠀⠛⠿⣿⣦⣤⣀⠀⠀
+⠀⠀⠀⠀⠀⠀⣹⣿⣿⣿⣿⠿⠋⠁⠀⣹⣿⠳⠀⠀⠀⠀⠀⠀⢀⣠⣽⣿⡿⠟⠃
+⠀⠀⠀⠀⠀⢰⠿⠛⠻⢿⡇⠀⠀⠀⣰⣿⠏⠀⠀⢀⠀⠀⠀⣾⣿⠟⠋⠁⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠋⠀⠀⣰⣿⣿⣾⣿⠿⢿⣷⣀⢀⣿⡇⠁⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠋⠉⠁⠀⠀⠀⠀⠙⢿⣿⣿⠇⠀⠀⠀⠀⠀⠀     by mehmetdemir-tr
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢿⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⠀                                                                                 
+EOF
+sleep 3
