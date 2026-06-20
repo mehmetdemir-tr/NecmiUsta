@@ -40,6 +40,18 @@ else
     echo -e "${RENKSIZ}Temizlik işlemi iptal edildi.${RENKSIZ}"
 fi
 
+read -p "Kullanıcı oluşturulsun mu? (E/H) >> " user1
+if [ "$user1" == "E" ] || ["$user1" == "e" ]; then
+   read -p "Kullanıcı adı girin >> " username
+   sudo adduser "$username"
+   echo -e "${YESIL}[+] Kullanıcı oluşturuldu.${RENKSIZ}"
+   sudo usermod -aG sudo "$username"
+   echo -e "${YESIL}[+] Kullanıcıya Yönetici hakları tanımlandı.${RENKSIZ}"
+
+else
+   echo -e "${KIRMIZI}[-] İptal edildi.${RENKSIZ}"
+fi
+sleep 2
 clear
 cat << 'EOF'
 ⠀⠀⠀⢸⣦⡀⠀⠀⠀⠀⢀⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -57,4 +69,5 @@ cat << 'EOF'
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢿⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠀⠀⠀⠀                                                                                 
 EOF
+echo -e "${YESIL}[+] Konfigürasyon tamamlandı, sunucu artık kullanılmaya hazır!${RENKSIZ}"
 sleep 3
